@@ -1,13 +1,14 @@
 # TabMaker: audio → guitar tab & chord sheets
 
 > **Living plan.** Task M0.2 copies this file into the repo as `PLAN.md`; from then on `PLAN.md` is the single source of truth.
-> **Overall status: IN PROGRESS** (M0 done · next task: M1.1 install test). Last updated: 2026-10-16.
+> **Overall status: IN PROGRESS** (M1 works on a real song · next: M1.14 labs, then M1.11/M1.12/M1.15 and the M1 PR). Last updated: 2026-10-16.
 
 ## Coming back after a break (read this first)
 The project is built so you never have to remember anything:
 
 | You want to… | Do this | What you get |
 |---|---|---|
+| **Remember what happened last time** | read the top entry of `JOURNAL.md` | plain-words summary of the last session + the exact next steps |
 | Know where things stand (any role) | run `tabmaker` with no arguments | home screen: what the tool does, project status + next task, your songs and their review state, the two commands, what's new |
 | **Use it as a guitar player** | read `docs/USER-GUIDE.md` (or `tabmaker guide`) | step-by-step: make a sheet, read it, check by ear, review, re-run |
 | Re-process a song without remembering flags | `tabmaker work/<song>` | it re-runs with the settings saved in `work/<song>/run.toml` (tuning, mode, guitar side, range) |
@@ -30,6 +31,8 @@ The project is built so you never have to remember anything:
 4. A milestone is `DONE` when all its tasks are `[x]` (or `[-]` with a reason) **and** its "Done when" check passes. Then update the status table and the Progress log (with eval scores from M2 on).
 5. Design changes go to the **Decision log** (dated), and the Reference design is edited to match.
 6. `tests/test_plan.py` keeps this file consistent; drift fails the test suite.
+6a. **End of every session**: add a dated entry at the top of `JOURNAL.md` covering what we did, what we learned, where things stand, and "next time: start here". Then commit and push the branch, so nothing lives only on this machine. Work in progress goes to GitHub as a **draft PR**.
+6b. **Learning track** (this is a learning project): every stage gets a guided session (the user runs it on a real song while Claude explains), a Jupyter lab in `labs/`, and, for key algorithms (fingering Viterbi M5, chord templates M6, quantization M4…), **"you code, I coach"**: Claude writes the scaffold and the tests, the user writes the core with hints. No large code drops without a check-in.
 7. **Git workflow: one branch + one pull request per milestone.**
    - Start each milestone on a new branch from an up-to-date `main`, named `m<N>-<slug>` (e.g. `m1-skeleton`). Never commit milestone work directly to `main`.
    - Commit `PLAN.md` updates together with the code they describe, on that branch. Push only once a coherent set of tasks is complete.
@@ -45,7 +48,7 @@ The project is built so you never have to remember anything:
 | # | Milestone | Phase | Status |
 |---|---|---|---|
 | M0 | Bootstrap repo, plan & "don't forget" kit | setup | DONE |
-| M1 | End-to-end skeleton on a real song | 1 | NOT STARTED |
+| M1 | End-to-end skeleton on a real song | 1 | IN PROGRESS |
 | M2 | Evaluation harness | 1 | NOT STARTED |
 | M3 | Transcription quality | 1 | NOT STARTED |
 | M4 | Rhythm & bars | 1 | NOT STARTED |
@@ -83,18 +86,22 @@ A personal **learning** project. It takes a full song recording (MP3/WAV), isola
 
 **Done when**: a fresh clone + `uv sync` + `uv run pytest` passes, and the README leads to both guides and the plan.
 
-### M1: End-to-end skeleton on a real song · NOT STARTED
-- [ ] M1.1 **Install test**: install Demucs, basic-pitch and beat_this together on Windows and run each once on one song (if that fails: WSL + Decision log)
-- [ ] M1.2 `models.py` (Note, TabNote, Segment) + `fretboard.py` (`Tuning` standard, candidate positions)
-- [ ] M1.3 `separate.py`: Demucs `htdemucs_6s` → `work/<song>/stems/`, cached by file hash
-- [ ] M1.4 `transcribe.py`: basic-pitch → `notes.mid` + `notes.json`
-- [ ] M1.5 Naive fingering (lowest fret) + `render/ascii.py` (timestamped lines, no bars)
-- [ ] M1.6 `cli.py`: `tabmaker song.mp3 [--start --end]`, `rich` progress bars, out-of-range warning
-- [ ] M1.7 **Per-song memory**: `work/<song>/run.toml` stores the settings; `tabmaker work/<song>` re-runs with them; `tab.txt` header (date, version, milestone, settings)
-- [ ] M1.8 **Home screen** `tabmaker` (no args): pitch, status from `PLAN.md` (current milestone + next task), songs in `work/` with state, commands, the last CHANGELOG entries. `tabmaker status` = the plan part only
-- [ ] M1.9 `tabmaker dev doctor` (ffmpeg, torch, CUDA, models) + `tabmaker dev selftest` (end-to-end on a built-in synthetic clip); first-run model-download message
-- [ ] M1.10 `tabmaker guide` prints/opens USER-GUIDE; every command's `--help` has examples
-- [ ] M1.11 Docs: `docs/README.md` (tutorial map), `01-digital-audio.md`, `02-source-separation.md`; USER-GUIDE "first song"
+### M1: End-to-end skeleton on a real song · IN PROGRESS
+- [x] M1.1 **Install test**: install Demucs, basic-pitch and beat_this together on Windows and run each once on one song (if that fails: WSL + Decision log)
+- [x] M1.2 `models.py` (Note, TabNote, Column = notes struck together) + `fretboard.py` (`Tuning` standard, candidate positions)
+- [x] M1.3 `separate.py`: Demucs `htdemucs_6s` → `work/<song>/stems/`, cached by file hash
+- [x] M1.4 `transcribe.py`: basic-pitch → `notes.mid` + `notes.json`
+- [x] M1.5 Naive fingering (lowest fret) + `render/ascii.py` (timestamped lines, no bars)
+- [x] M1.6 `cli.py`: `tabmaker song.mp3 [--start --end]`, `rich` progress bars, out-of-range warning
+- [x] M1.7 **Per-song memory**: `work/<song>/run.toml` stores the settings; `tabmaker work/<song>` re-runs with them; `tab.txt` header (date, version, milestone, settings)
+- [x] M1.8 **Home screen** `tabmaker` (no args): pitch, status from `PLAN.md` (current milestone + next task), songs in `work/` with state, commands, the last CHANGELOG entries. `tabmaker status` = the plan part only
+- [x] M1.9 `tabmaker dev doctor` (ffmpeg, torch, CUDA, models) + `tabmaker dev selftest` (end-to-end on a built-in synthetic clip); first-run model-download message
+- [x] M1.10 `tabmaker guide` prints/opens USER-GUIDE; every command's `--help` has examples
+- [~] M1.11 Docs: `docs/README.md` (tutorial map) ✓, `01-digital-audio.md` ✓, `02-source-separation.md` ✓; still to do: USER-GUIDE "first song", CHANGELOG entry, DEV-GUIDE dependency notes, CLAUDE.md (no stacked branches + learning style)
+- [ ] M1.12 CI: install the ML dependencies on both OSes + a `dev selftest` job on Ubuntu with a model cache
+- [x] M1.13 **Guided session** (the user drives, Claude explains): run stage 1 on a real song, listen to `mix.wav` and each stem, read `tab.txt`. This also covers the real-song "Done when" check
+- [ ] M1.15 Load the cached Demucs model offline (no Hugging Face update check, no "unauthenticated requests" warning); first run still downloads it
+- [ ] M1.14 **Labs** `labs/01-digital-audio.ipynb`, `labs/02-source-separation.ipynb` (Jupyter + matplotlib as dev dependencies): plot waveforms/spectrograms, play audio inline, change a parameter and re-run
 
 **Done when**: `uv run tabmaker <real song>.mp3` produces `work/<song>/tab.txt` + stems + MIDI; `tabmaker work/<song>` re-runs from the cache with the saved settings; the home screen shows the song; `dev selftest` passes.
 
@@ -183,6 +190,7 @@ A personal **learning** project. It takes a full song recording (MP3/WAV), isola
 - [ ] L.2 Detecting bends/slides/hammer-ons
 - [ ] L.3 Fine-tuning transcription on GuitarSet + aligned songs (GPU)
 - [ ] L.4 Web UI with alphaTab
+- [ ] L.5 When the guitar stem goes quiet but `other.wav` gets loud (Demucs filed the guitar as "other"), use guitar + other for that stretch
 
 ---
 
@@ -194,7 +202,7 @@ A personal **learning** project. It takes a full song recording (MP3/WAV), isola
 |---|---|---|
 | Language/env | Python 3.11, `uv` + committed `uv.lock`, src layout | ML tooling is Python; reproducible after long breaks; WSL Ubuntu as the fallback |
 | Stem separation | Demucs `htdemucs_6s` | Best open model with a guitar stem |
-| Note transcription | Spotify `basic-pitch` | Polyphonic, light, confidence scores; ONNX on Windows |
+| Note transcription | Spotify `basic-pitch` | Polyphonic, light, confidence scores; runs on TensorFlow 2.14 (basic-pitch 0.4 requires it on Python 3.11) |
 | Beat/tempo | `beat_this` on the full mix, `librosa` fallback | Drums make beats easier to find; avoids `madmom` |
 | Fingering | Own Viterbi | No maintained library; its weights hold your learned style |
 | Chords | Own chroma + templates + Viterbi | Educational, reuses beats + Viterbi |
@@ -331,8 +339,12 @@ Player commands (developer tools under `tabmaker dev`: eval, tune, learn, doctor
 | 2026-10-16 | uv on this Windows machine fails to create the Python minor-version link; workaround `uv sync --python <path to downloaded python.exe>` documented in DEV-GUIDE. Not a reason to switch to WSL. |
 | 2026-10-16 | Every milestone is developed on its own branch `m<N>-<slug>` and submitted as a pull request; the user merges. M0 was the initial commit on `main`, made before this rule existed. |
 | 2026-10-16 | GitHub Actions CI on PRs and `main`: ruff, locked install, pytest, build, CLI smoke test on Ubuntu + Windows. Once ML dependencies land (M1), CI must cache the models and keep tests that need audio/models short (M1.9 selftest on a tiny clip). |
+| 2026-10-16 | Dependencies (M1.1): CPU-only PyTorch from the pytorch-cpu index everywhere (no multi-GB CUDA libraries). basic-pitch 0.4 requires TensorFlow on Python 3.11 (not ONNX as first planned) → constraints `numpy<2` (TF 2.14), `setuptools<81` (resampy imports pkg_resources), `tensorflow-io-gcs-filesystem<0.32` on Windows (no newer Windows wheels). The lock targets Windows + Linux x86_64. Audio is read with soundfile/libsndfile (MP3 included); ffmpeg is optional (M4A only). |
+| 2026-10-16 | Learning track (rule 6b): guided sessions, Jupyter labs, and "you code, I coach" for key algorithms, at the user's request: learning by experimenting matters more than code volume. |
 
 ## Progress log
 | Date | Task(s) | Notes / scores |
 |---|---|---|
 | 2026-10-16 | M0.1–M0.11 | Repo, uv env (Python 3.11.17), README, USER-GUIDE skeleton, DEV-GUIDE, CHANGELOG, CLAUDE.md, plan consistency test (17 tests pass), memory pointer. No pipeline code yet. |
+| 2026-10-16 | M1.1–M1.10, part of M1.11 | Branch `m1-skeleton` (not pushed yet). The pipeline runs end to end. Self-test on the synthetic clip: basic-pitch found 16/16 notes on clean guitar; separation → notes → tab OK; the re-run reuses cached stems. `dev doctor` all OK (ffmpeg absent, optional). 41 unit tests pass. Not yet tried on a real song (M1.13). |
+| 2026-10-16 | M1.13 | Guided session on *Come As You Are* (0:00–1:00). Done when ✓: 247 notes, re-run from cache in 7 s, home screen lists the song, selftest passes. Seen: (1) 0:18–0:30 the guitar stem is near-silent (−45…−76 dB) while `other.wav` gets loud: Demucs filed the chorus guitar as "other" (→ L.5); (2) the bass doubles the riff; (3) the song is in D standard (open low string = D2, open A string = G2), so 14 notes fall below E2 and the riff lands on the wrong strings (→ M5.2); (4) many riff notes come out an octave too high (D3/E3 instead of D2/E2) (→ M3.1); (5) Demucs fetches its model from the Hugging Face Hub and checks for updates on every run (→ M1.15). |
