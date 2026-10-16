@@ -1,0 +1,28 @@
+# Python / uv
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+
+# Personal data: copyrighted audio, per-song work, benchmark songs, review feedback
+bench/
+work/
+feedback/
+*.mp3
+*.wav
+*.flac
+*.m4a
+*.ogg
+
+# Model caches
+.cache/
+pretrained_models/
+
+# Editors / OS
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store

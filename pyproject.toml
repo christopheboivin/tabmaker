@@ -1,0 +1,23 @@
+[project]
+name = "tabmaker"
+version = "0.1.0"
+description = "Turns a song recording into guitar tab and chord sheets (personal learning project)."
+authors = [
+    { name = "Christophe Boivin", email = "christophe.boivin+github@gmail.com" }
+]
+# Pinned to 3.11: the safest version for Demucs / basic-pitch / beat_this together (see PLAN.md).
+requires-python = ">=3.11,<3.12"
+dependencies = []
+
+[project.scripts]
+tabmaker = "tabmaker:main"
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[build-system]
+requires = ["uv_build>=0.13.0,<0.14.0"]
+build-backend = "uv_build"
