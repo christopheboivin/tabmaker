@@ -3,9 +3,18 @@
 Personal learning project: a Python CLI that turns a full song recording into guitar tab + chord sheets (Demucs → basic-pitch → beats → Viterbi fingering / chord recognition → plain-text sheet; GP5 export later).
 
 ## Start of every session
+0. Read the top entry of `JOURNAL.md` (last session, in plain words).
 1. Read `PLAN.md`: the status table, then the current milestone. **It is the single source of truth.**
 2. Tell the user where things stand (current milestone, last done task, next task) before proposing work.
 3. "Continue the project" means: propose the first unchecked task of the current milestone.
+
+## End of every session
+- Add a dated entry at the **top** of `JOURNAL.md`, in plain words for the user:
+  - what we did;
+  - what we learned;
+  - where things stand;
+  - "Next time: start here", with exact commands.
+- Commit, then push the branch. Unfinished milestone work goes up as a **draft PR**. Never leave the session's work only on this machine.
 
 ## How the user wants to work (learning project)
 - The user is here to **learn by experimenting**. Before building a stage:

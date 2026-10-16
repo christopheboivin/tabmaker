@@ -8,6 +8,7 @@ The project is built so you never have to remember anything:
 
 | You want to… | Do this | What you get |
 |---|---|---|
+| **Remember what happened last time** | read the top entry of `JOURNAL.md` | plain-words summary of the last session + the exact next steps |
 | Know where things stand (any role) | run `tabmaker` with no arguments | home screen: what the tool does, project status + next task, your songs and their review state, the two commands, what's new |
 | **Use it as a guitar player** | read `docs/USER-GUIDE.md` (or `tabmaker guide`) | step-by-step: make a sheet, read it, check by ear, review, re-run |
 | Re-process a song without remembering flags | `tabmaker work/<song>` | it re-runs with the settings saved in `work/<song>/run.toml` (tuning, mode, guitar side, range) |
@@ -30,6 +31,7 @@ The project is built so you never have to remember anything:
 4. A milestone is `DONE` when all its tasks are `[x]` (or `[-]` with a reason) **and** its "Done when" check passes. Then update the status table and the Progress log (with eval scores from M2 on).
 5. Design changes go to the **Decision log** (dated), and the Reference design is edited to match.
 6. `tests/test_plan.py` keeps this file consistent; drift fails the test suite.
+6a. **End of every session**: add a dated entry at the top of `JOURNAL.md` covering what we did, what we learned, where things stand, and "next time: start here". Then commit and push the branch, so nothing lives only on this machine. Work in progress goes to GitHub as a **draft PR**.
 6b. **Learning track** (this is a learning project): every stage gets a guided session (the user runs it on a real song while Claude explains), a Jupyter lab in `labs/`, and, for key algorithms (fingering Viterbi M5, chord templates M6, quantization M4…), **"you code, I coach"**: Claude writes the scaffold and the tests, the user writes the core with hints. No large code drops without a check-in.
 7. **Git workflow: one branch + one pull request per milestone.**
    - Start each milestone on a new branch from an up-to-date `main`, named `m<N>-<slug>` (e.g. `m1-skeleton`). Never commit milestone work directly to `main`.

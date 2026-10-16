@@ -6,6 +6,9 @@ Expect a good **first draft** to correct by ear, not a perfect tab.
 
 > **Status:** early development, not usable yet. Run `uv run tabmaker` or see [PLAN.md](PLAN.md) for where things stand.
 
+## 👋 Coming back after a break?
+Read the top entry of **[JOURNAL.md](JOURNAL.md)**: what we did last time, where things stand, and exactly what to do next.
+
 ## Pick your door
 
 ### 🎸 I want to use it (guitar player)
