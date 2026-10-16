@@ -5,6 +5,37 @@ Where we left off, in plain words. **The newest session is at the top.** Read th
 
 ---
 
+## 2026-10-16 · Session 2: first real song (M1.13 guided session)
+
+### What we did
+- Ran the pipeline on *Come As You Are* (0:00–1:00) and listened to `mix.wav` and the stems: guitar, bass and other.
+- Read the first lines of `tab.txt` and compared them with how you play the riff.
+- Checked M1's "Done when" on a real song: the sheet, stems and MIDI were produced; the re-run reused the stems (7 s); the home screen lists the song; `dev selftest` passed. **M1.13 is done.**
+
+### What we learned
+1. **Separation can drop the guitar for a few seconds.** From 0:18 to 0:30 the guitar stem is almost silent, but the guitar didn't stop: Demucs put it in `other.wav`. It decides moment by moment, and the watery chorus effect stopped sounding like "guitar" to it once the vocals came in. (Idea L.5 in the plan.)
+2. **The bass doubles the riff**, an octave lower. Same notes at the same time make separation harder.
+3. **The song is in D standard** (every string a whole step down), not drop D. The notes prove it: the open low string sounds D2, and the open A string sounds G2, 5 semitones higher. In drop D it would be A2. Our tool only knows standard tuning, so the real low notes were thrown out as "below E2" (M5.2 adds tunings).
+4. **Octave errors**: basic-pitch often heard the riff one octave too high (D3/E3 instead of D2/E2). Those ghost notes are why the tab shows the riff on the D string. (M3.1 filters them.)
+5. **Hugging Face**: Demucs downloads its model from the Hugging Face Hub and checks it for updates on every run. That causes the "unauthenticated requests" warning. It's harmless and needs no token, but it means the tool isn't fully offline yet (new task M1.15).
+6. To find out which stage caused a mistake, start with the parts where the guitar plays alone (the intro): separation can't go wrong there.
+
+### Where things stand
+- Branch `m1-skeleton` (draft PR). M1.1–M1.10 and M1.13 are done.
+- Left in M1: the labs (M1.14), docs (M1.11), CI for the ML libraries (M1.12) and the offline model load (M1.15).
+- If you haven't yet: read [docs/02-source-separation.md](docs/02-source-separation.md). It explains today's "masks" idea, and its "Failure modes" table now includes what we heard.
+
+### Next time: start here
+```bash
+git switch m1-skeleton
+```
+```bash
+uv run tabmaker
+```
+Then tell Claude: **"continue the project: labs M1.14"**. You'll open a notebook, plot the spectrogram of `mix.wav` next to `guitar.wav` and `other.wav`, and see the 0:18–0:30 hole for yourself.
+
+---
+
 ## 2026-10-16 · Session 1: plan, setup, first working pipeline
 
 ### What we did

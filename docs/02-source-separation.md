@@ -53,10 +53,10 @@ Two practical details:
 |---|---|---|
 | Keyboards, organ or synth pads | They share the guitar's frequency range; the mask can't tell them apart | Check `piano.wav` and `other.wav`; M3's confidence filter drops weak notes |
 | Two guitars at once (rhythm + lead) | There is only one guitar stem | `--guitar left/right/center` in M3: they're often panned apart |
-| The guitar is quiet or missing, but it's in `other.wav` | Clean or acoustic guitar, or an unusual effect, looked "unknown" to the model | Try another section; future model comparisons (M8) |
+| The guitar is quiet or missing, but it's in `other.wav` | Clean or acoustic guitar, or an unusual effect, looked "unknown" to the model. The decision is made moment by moment, so the guitar can vanish for a few seconds only (in *Come As You Are*, the chorus-effect guitar went to `other.wav` from 0:18 to 0:30) | Try another section; future model comparisons (M8); idea L.5 |
 | "Underwater", phasey or swirly sound | Mask errors: cells half-assigned to the wrong stem | Normal artifact; note detection usually survives it |
 | Bits of vocal melody | Voice and lead guitar overlap in range and phrasing | Shows up as stray notes; cleanup in M3 |
-| Bass notes | Low guitar notes and bass overlap | The "notes below low E" warning often points to this |
+| Bass notes | Low guitar notes and bass overlap, worst when the bass doubles the guitar riff | The "notes below low E" warning often points to this, but check the tuning first: a tuned-down guitar (e.g. D standard) really does play below E2 |
 
 ## 5. Try it yourself
 Process a 30-second excerpt of a song you know (fast, and cached for next time):

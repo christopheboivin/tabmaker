@@ -1,7 +1,7 @@
 # TabMaker: audio → guitar tab & chord sheets
 
 > **Living plan.** Task M0.2 copies this file into the repo as `PLAN.md`; from then on `PLAN.md` is the single source of truth.
-> **Overall status: IN PROGRESS** (M1 code works on the synthetic clip · next: M1.13 guided session on a real song, then labs). Last updated: 2026-10-16.
+> **Overall status: IN PROGRESS** (M1 works on a real song · next: M1.14 labs, then M1.11/M1.12/M1.15 and the M1 PR). Last updated: 2026-10-16.
 
 ## Coming back after a break (read this first)
 The project is built so you never have to remember anything:
@@ -99,7 +99,8 @@ A personal **learning** project. It takes a full song recording (MP3/WAV), isola
 - [x] M1.10 `tabmaker guide` prints/opens USER-GUIDE; every command's `--help` has examples
 - [~] M1.11 Docs: `docs/README.md` (tutorial map) ✓, `01-digital-audio.md` ✓, `02-source-separation.md` ✓; still to do: USER-GUIDE "first song", CHANGELOG entry, DEV-GUIDE dependency notes, CLAUDE.md (no stacked branches + learning style)
 - [ ] M1.12 CI: install the ML dependencies on both OSes + a `dev selftest` job on Ubuntu with a model cache
-- [ ] M1.13 **Guided session** (the user drives, Claude explains): run stage 1 on a real song, listen to `mix.wav` and each stem, read `tab.txt`. This also covers the real-song "Done when" check
+- [x] M1.13 **Guided session** (the user drives, Claude explains): run stage 1 on a real song, listen to `mix.wav` and each stem, read `tab.txt`. This also covers the real-song "Done when" check
+- [ ] M1.15 Load the cached Demucs model offline (no Hugging Face update check, no "unauthenticated requests" warning); first run still downloads it
 - [ ] M1.14 **Labs** `labs/01-digital-audio.ipynb`, `labs/02-source-separation.ipynb` (Jupyter + matplotlib as dev dependencies): plot waveforms/spectrograms, play audio inline, change a parameter and re-run
 
 **Done when**: `uv run tabmaker <real song>.mp3` produces `work/<song>/tab.txt` + stems + MIDI; `tabmaker work/<song>` re-runs from the cache with the saved settings; the home screen shows the song; `dev selftest` passes.
@@ -189,6 +190,7 @@ A personal **learning** project. It takes a full song recording (MP3/WAV), isola
 - [ ] L.2 Detecting bends/slides/hammer-ons
 - [ ] L.3 Fine-tuning transcription on GuitarSet + aligned songs (GPU)
 - [ ] L.4 Web UI with alphaTab
+- [ ] L.5 When the guitar stem goes quiet but `other.wav` gets loud (Demucs filed the guitar as "other"), use guitar + other for that stretch
 
 ---
 
@@ -345,3 +347,4 @@ Player commands (developer tools under `tabmaker dev`: eval, tune, learn, doctor
 |---|---|---|
 | 2026-10-16 | M0.1–M0.11 | Repo, uv env (Python 3.11.17), README, USER-GUIDE skeleton, DEV-GUIDE, CHANGELOG, CLAUDE.md, plan consistency test (17 tests pass), memory pointer. No pipeline code yet. |
 | 2026-10-16 | M1.1–M1.10, part of M1.11 | Branch `m1-skeleton` (not pushed yet). The pipeline runs end to end. Self-test on the synthetic clip: basic-pitch found 16/16 notes on clean guitar; separation → notes → tab OK; the re-run reuses cached stems. `dev doctor` all OK (ffmpeg absent, optional). 41 unit tests pass. Not yet tried on a real song (M1.13). |
+| 2026-10-16 | M1.13 | Guided session on *Come As You Are* (0:00–1:00). Done when ✓: 247 notes, re-run from cache in 7 s, home screen lists the song, selftest passes. Seen: (1) 0:18–0:30 the guitar stem is near-silent (−45…−76 dB) while `other.wav` gets loud: Demucs filed the chorus guitar as "other" (→ L.5); (2) the bass doubles the riff; (3) the song is in D standard (open low string = D2, open A string = G2), so 14 notes fall below E2 and the riff lands on the wrong strings (→ M5.2); (4) many riff notes come out an octave too high (D3/E3 instead of D2/E2) (→ M3.1); (5) Demucs fetches its model from the Hugging Face Hub and checks for updates on every run (→ M1.15). |
