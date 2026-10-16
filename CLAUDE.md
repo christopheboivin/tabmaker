@@ -17,7 +17,11 @@ Personal learning project: a Python CLI that turns a full song recording into gu
   - PLAN.md is updated;
   - for user-visible changes, `docs/USER-GUIDE.md` and `CHANGELOG.md` (player language) are updated;
   - for a concept, its tutorial in `docs/` is updated.
-- Commit messages start with the task ID: `M3.2: ghost-note filter`. Batch pushes: push only once a set of related changes is complete.
+- **One branch + one PR per milestone.**
+  - Before the first task of a milestone, `git switch main && git pull`, then `git switch -c m<N>-<slug>`. Never commit milestone work to `main`.
+  - Commit messages start with the task ID: `M3.2: ghost-note filter`. Batch pushes: push only once a set of related changes is complete.
+  - When "Done when" passes, open a PR `M<N>: <title>` listing the tasks done, how they were verified, and what the user should check by ear. Then hand the merge to the user. Don't merge it yourself unless asked.
+  - Fixes outside a milestone get their own short branch + PR.
 - The concept tutorials (`docs/NN-*.md`) explain DSP/music/ML for a guitarist, not Python. Follow the 6-part format in PLAN.md.
 - Never commit audio, `work/`, `bench/` or `feedback/` (copyrighted or personal data).
 
