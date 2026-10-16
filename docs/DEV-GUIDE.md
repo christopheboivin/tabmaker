@@ -1,7 +1,8 @@
 # TabMaker developer guide
 
 ## Resuming after a break (start here)
-1. `git log --oneline -15`: commits are prefixed with task IDs (`M3.2: …`), so this is the recent history of the plan.
+1. `git switch main && git pull`, then `gh pr list`: an open PR is a milestone waiting for your review (merge it before starting the next one).
+   `git log --oneline -15`: commits are prefixed with task IDs (`M3.2: …`), so this is the recent history of the plan.
 2. Open [PLAN.md](../PLAN.md): the status table shows the current milestone, and its first `[ ]` task is the next thing to do.
 3. `uv sync && uv run pytest` checks the environment still builds and tests pass. Later, `uv run tabmaker dev selftest` *(M1.9)* also runs the pipeline end to end.
 4. With Claude: open this folder and say "continue the project". `CLAUDE.md` tells it to read `PLAN.md` and follow its rules.
@@ -36,6 +37,7 @@ Developer tools will live under `uv run tabmaker dev …` (doctor, selftest, eva
   - for concepts, the tutorial in `docs/` is updated.
 - Design changes go in the PLAN.md Decision log, with the Reference design kept in sync.
 - `tests/test_plan.py` fails if PLAN.md's status table and task checkboxes disagree.
+- **One branch + one PR per milestone**: branch `m<N>-<slug>` from an up-to-date `main`, PR titled `M<N>: <title>`, merged by you after review. Never commit milestone work directly to `main`.
 - Push only once a set of related changes is complete (each push triggers CI).
 
 ## Architecture

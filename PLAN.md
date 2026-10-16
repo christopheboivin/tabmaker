@@ -15,6 +15,7 @@ The project is built so you never have to remember anything:
 | See what's new since last time | `CHANGELOG.md` (last entries also on the home screen) | changes in player language |
 | Check nothing broke while you were away | `tabmaker dev selftest` | end-to-end run on a built-in clip + environment check |
 | **Work on the code** | read `docs/DEV-GUIDE.md`, then `PLAN.md` (or `tabmaker status`) | architecture, how to run/test, the next unchecked task |
+| See what's waiting for your review | `gh pr list` | open milestone PRs (one per milestone) |
 | Continue with Claude | open the folder and say "continue the project" | Claude reads `CLAUDE.md` → `PLAN.md` → proposes the next task |
 | Know if the tool got better | `tabmaker dev eval bench/ --history` | score trend over time |
 
@@ -29,7 +30,12 @@ The project is built so you never have to remember anything:
 4. A milestone is `DONE` when all its tasks are `[x]` (or `[-]` with a reason) **and** its "Done when" check passes. Then update the status table and the Progress log (with eval scores from M2 on).
 5. Design changes go to the **Decision log** (dated), and the Reference design is edited to match.
 6. `tests/test_plan.py` keeps this file consistent; drift fails the test suite.
-7. Commit `PLAN.md` together with the code it describes. Push only once a set of related changes is complete.
+7. **Git workflow: one branch + one pull request per milestone.**
+   - Start each milestone on a new branch from an up-to-date `main`, named `m<N>-<slug>` (e.g. `m1-skeleton`). Never commit milestone work directly to `main`.
+   - Commit `PLAN.md` updates together with the code they describe, on that branch. Push only once a coherent set of tasks is complete.
+   - When the milestone's "Done when" passes, open a PR titled `M<N>: <milestone title>`. Its description lists the tasks done, how they were verified, and what's left for the user to check by ear or by hand. The PR also sets the milestone to `DONE` in `PLAN.md`.
+   - The user reviews and merges. Record the PR link in the Progress log.
+   - Small fixes outside any milestone also go through their own short branch + PR.
 
 **Legend**: `[ ]` not started · `[~]` in progress · `[x]` done · `[-]` dropped (reason in the Decision log)
 **Milestone states**: `NOT STARTED` · `IN PROGRESS` · `DONE` · `DROPPED`
@@ -322,6 +328,7 @@ Player commands (developer tools under `tabmaker dev`: eval, tune, learn, doctor
 |---|---|
 | 2026-10-16 | Initial plan: Python CLI, full-song input, plain text first then GP5, concept tutorials per stage, evaluation on known songs, review loop, chord mode inside the usable cut line, "don't forget" kit (home screen, per-song settings, guides, changelog, plan consistency test). |
 | 2026-10-16 | uv on this Windows machine fails to create the Python minor-version link; workaround `uv sync --python <path to downloaded python.exe>` documented in DEV-GUIDE. Not a reason to switch to WSL. |
+| 2026-10-16 | Every milestone is developed on its own branch `m<N>-<slug>` and submitted as a pull request; the user merges. M0 was the initial commit on `main`, made before this rule existed. |
 
 ## Progress log
 | Date | Task(s) | Notes / scores |
