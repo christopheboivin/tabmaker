@@ -7,7 +7,16 @@ authors = [
 ]
 # Pinned to 3.11: the safest version for Demucs / basic-pitch / beat_this together (see PLAN.md).
 requires-python = ">=3.11,<3.12"
-dependencies = []
+dependencies = [
+    "basic-pitch>=0.4.0",
+    "beat-this>=1.1.0",
+    "demucs>=4.0.1",
+    "rich>=15.0.0",
+    "soundfile>=0.14.0",
+    "torch>=2.14.1",
+    "torchaudio>=2.11.0",
+    "typer>=0.27.3",
+]
 
 [project.scripts]
 tabmaker = "tabmaker:main"
@@ -17,6 +26,32 @@ dev = [
     "pytest>=8",
     "ruff>=0.17.1",
 ]
+
+# CPU-only PyTorch everywhere: small installs, identical on Windows/Linux/CI (see PLAN.md Decision log).
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv]
+# The lock must work on the Windows dev machine and on Linux (CI, WSL fallback).
+required-environments = [
+    "sys_platform == 'win32' and platform_machine == 'AMD64'",
+    "sys_platform == 'linux' and platform_machine == 'x86_64'",
+]
+# basic-pitch 0.4.0 needs TensorFlow on Python 3.11. TensorFlow's GCS helper only has
+# Windows wheels up to 0.31.
+# TensorFlow 2.14 is compiled against numpy 1.x.
+constraint-dependencies = [
+    "tensorflow-io-gcs-filesystem<0.32; sys_platform == 'win32'",
+    "numpy<2",
+    # basic-pitch pins resampy<0.4.3, which imports pkg_resources (removed in setuptools 81).
+    "setuptools<81",
+]
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+torchaudio = { index = "pytorch-cpu" }
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -28,6 +63,10 @@ target-version = "py311"
 [tool.ruff.lint]
 # pyflakes, pycodestyle, isort, bugbear, pyupgrade
 select = ["F", "E", "W", "I", "B", "UP"]
+
+[tool.ruff.lint.flake8-bugbear]
+# Typer declares CLI options as argument defaults by design.
+extend-immutable-calls = ["typer.Option", "typer.Argument"]
 
 [build-system]
 requires = ["uv_build>=0.13.0,<0.14.0"]

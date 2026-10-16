@@ -7,7 +7,15 @@ Personal learning project: a Python CLI that turns a full song recording into gu
 2. Tell the user where things stand (current milestone, last done task, next task) before proposing work.
 3. "Continue the project" means: propose the first unchecked task of the current milestone.
 
+## How the user wants to work (learning project)
+- The user is here to **learn by experimenting**. Before building a stage:
+  - explain the concept briefly;
+  - have the user run something and look at or listen to the result (guided session);
+  - provide a Jupyter lab in `labs/`.
+- For key algorithms (quantization, Viterbi fingering, chord templates…), use **"you code, I coach"**: you write the scaffold and the tests, the user writes the core with hints. No big code drops without a check-in. See PLAN.md rule 6b.
+
 ## Rules
+- Branch from an up-to-date `main` only, never from another open PR's branch (PRs are squash-merged, so stacked branches conflict).
 - Follow PLAN.md "How this plan is maintained":
   - mark `[~]` while working on a task and `[x]` when it's done;
   - update the status table and the Progress log;
