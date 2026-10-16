@@ -23,7 +23,7 @@ The project is built so you never have to remember anything:
 1. Find the current milestone in the status table, then its first unchecked task. Mark it `[~]` while working on it.
 2. Each task has an ID (`M3.2`). Commit messages start with that ID (`M3.2: ghost-note filter`), so `git log` is also a history of the plan.
 3. **Definition of done (every task)**:
-   - tests pass;
+   - tests pass, and `ruff check` + `ruff format --check` are clean;
    - the task is checked `[x]` here;
    - if users see the change: `docs/USER-GUIDE.md` is updated and an entry goes into `CHANGELOG.md`;
    - if a concept is involved: its tutorial in `docs/` is updated.
@@ -34,6 +34,7 @@ The project is built so you never have to remember anything:
    - Start each milestone on a new branch from an up-to-date `main`, named `m<N>-<slug>` (e.g. `m1-skeleton`). Never commit milestone work directly to `main`.
    - Commit `PLAN.md` updates together with the code they describe, on that branch. Push only once a coherent set of tasks is complete.
    - When the milestone's "Done when" passes, open a PR titled `M<N>: <milestone title>`. Its description lists the tasks done, how they were verified, and what's left for the user to check by ear or by hand. The PR also sets the milestone to `DONE` in `PLAN.md`.
+   - **CI** (`.github/workflows/ci.yml`) runs on every PR: ruff lint + format check, `uv sync --locked`, pytest, package build and CLI smoke test, on Ubuntu and Windows. A PR is merged only when CI is green.
    - The user reviews and merges. Record the PR link in the Progress log.
    - Small fixes outside any milestone also go through their own short branch + PR.
 
@@ -329,6 +330,7 @@ Player commands (developer tools under `tabmaker dev`: eval, tune, learn, doctor
 | 2026-10-16 | Initial plan: Python CLI, full-song input, plain text first then GP5, concept tutorials per stage, evaluation on known songs, review loop, chord mode inside the usable cut line, "don't forget" kit (home screen, per-song settings, guides, changelog, plan consistency test). |
 | 2026-10-16 | uv on this Windows machine fails to create the Python minor-version link; workaround `uv sync --python <path to downloaded python.exe>` documented in DEV-GUIDE. Not a reason to switch to WSL. |
 | 2026-10-16 | Every milestone is developed on its own branch `m<N>-<slug>` and submitted as a pull request; the user merges. M0 was the initial commit on `main`, made before this rule existed. |
+| 2026-10-16 | GitHub Actions CI on PRs and `main`: ruff, locked install, pytest, build, CLI smoke test on Ubuntu + Windows. Once ML dependencies land (M1), CI must cache the models and keep tests that need audio/models short (M1.9 selftest on a tiny clip). |
 
 ## Progress log
 | Date | Task(s) | Notes / scores |

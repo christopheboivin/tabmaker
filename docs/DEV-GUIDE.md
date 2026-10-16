@@ -26,6 +26,24 @@ uv run pytest
 ```bash
 uv run tabmaker
 ```
+Before pushing, run the same checks CI runs:
+```bash
+uv run ruff check . && uv run ruff format --check . && uv run pytest
+```
+To auto-fix lint and formatting:
+```bash
+uv run ruff check --fix . && uv run ruff format .
+```
+
+## CI (GitHub Actions)
+`.github/workflows/ci.yml` runs on every pull request and on pushes to `main`:
+
+| Job | What it checks |
+|---|---|
+| Lint (ruff) | `ruff check` + `ruff format --check` |
+| Test & build (Ubuntu, Windows) | `uv sync --locked` (fails if `uv.lock` is stale; run `uv lock` to fix), `pytest` (including the PLAN.md consistency test), `uv build`, `tabmaker` smoke run |
+
+Merge a PR only when all checks are green. To see the results: `gh pr checks <number>`, or the Checks tab on the PR. To re-run them: the "Re-run jobs" button, or Actions → CI → "Run workflow".
 Developer tools will live under `uv run tabmaker dev …` (doctor, selftest, eval, tune, learn); see PLAN.md for when each lands.
 
 ## Rules (summary of PLAN.md "How this plan is maintained")

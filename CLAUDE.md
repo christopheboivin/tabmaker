@@ -13,7 +13,7 @@ Personal learning project: a Python CLI that turns a full song recording into gu
   - update the status table and the Progress log;
   - log design changes in the Decision log and keep the Reference design in sync.
 - **Definition of done**:
-  - `uv run pytest` passes (including `tests/test_plan.py`);
+  - `uv run ruff check . && uv run ruff format --check . && uv run pytest` passes; CI (`.github/workflows/ci.yml`) runs the same checks on Ubuntu + Windows, and a PR is only ready when CI is green;
   - PLAN.md is updated;
   - for user-visible changes, `docs/USER-GUIDE.md` and `CHANGELOG.md` (player language) are updated;
   - for a concept, its tutorial in `docs/` is updated.
